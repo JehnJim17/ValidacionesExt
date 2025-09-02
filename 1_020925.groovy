@@ -1,9 +1,11 @@
+Unexpected input: '{\r\ndef baseUrl2 = "https://api.atlassian.com/jsm/assets/workspace/${workspaceId}/v1/object/create"\r\ndef baseUrl3 = "https://jira-ath.atlassian.net/rest/api/3/issue/${issueKey}"\r\n\r\n// === OBTENER DATOS DEL OBJETO DE EVALUACION SELECCIONADA NOMBRE ===\r\ndef issue = get("${baseUrl3}")\r\n    .header("Content-Type", "application/json")\r\n    .basicAuth(usuario,token)\r\n    .asObject(Map)\r\n    .body\r\n\r\nlogger.info "IssueV3: ${JsonOutput.toJson(issue)}"\r\ndef usuarioRadicadorEmail = issue?.fields?.creator?.emailAddress\r\nlogger.info "UsaurioRadicadorEmail: ${usuarioRadicadorEmail}"\r\ndef usuarioRadicadorName = issue?.fields?.creator?.displayName\r\nlogger.info "UsaurioRadicadorName: ${usuarioRadicadorName}"\r\ndef usuarioRadicadorNAccountId = issue?.fields?.creator?.accountId\r\nlogger.info "UsaurioRadicadorAccountId: ${usuarioRadicadorNAccountId}"\r\nString Entidad = jsonFields['fields']["customfield_11319"]['objectId']\r\nEntidad = Entidad.replace("[", "AB-").replace("]", "")\r\nlogger.info "Entidad: ${Entidad}"\r\ndef fecha = new Date().format("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", TimeZone.getTimeZone("UTC"))\r\n\r\n// Definimos el mapa de respuestas válidas\r\ndef respuestasValidas = [\r\n    "13526": "Falso",\r\n    "13527": "Gerente, director o vicepresidente",\r\n    "13528": "Verdadero",\r\n    "13529": "En el Memorando de presentación de solicitud de compra o contratación para aprobación del comité",\r\n    "13530": "Falso",\r\n    "13531": "Falso",\r\n    "13532": "Ninguna de las anteriores",\r\n    "13533": "Verdadero",\r\n    "13534": "Verdadero",\r\n    "13535": "Dirección Cadena de Abastecimiento",\r\n    "13536": "Verdadero",\r\n    "13537": "Entregar toda la información a su cargo, actualizada a la fecha de entrega al nuevo Supervisor, realizando el empalme y dejando informe de entrega por escrito",\r\n    "13538": "Administrativo, técnico, legal y financiero",\r\n    "13539": "Falso",\r\n    "13540": "Verdadero",\r\n    "13541": "Todas las anteriores",\r\n    "13542": "Ninguna de las anteriores",\r\n    "13543": "Informar oportunamente y por escrito a la Dirección de Control y Cumplimiento del Banco y a la de Abastecimiento y Logística sobre hechos que puedan constituir corrupción, delitos o riesgos para la correcta ejecución contractual.",\r\n    "13544": "1 y 2 son correctos",\r\n    "13545": "Verdadero",\r\n    "13546": "Todas las anteriores",\r\n    "13547": "Verdadero",\r\n    "13548": "Falso",\r\n    "13549": "Verdadero",\r\n    "13550": "Prohibición del Supervisor del Contrato"\r\n]\r\n\r\n\r\n// Función traevalor\r\ndef traevalor('
+
+
 // Configuración inicial
 def issueKey = "CSA-2590"
 def jsonFields = get("/rest/api/2/issue/${issueKey}").asObject(Map).body
 logger.info "Issue: ${JsonOutput.toJson(jsonFields)}"
-if (issue.customfield_13044?.value == 'Curso de supervisor')
-{
+
 def baseUrl2 = "https://api.atlassian.com/jsm/assets/workspace/${workspaceId}/v1/object/create"
 def baseUrl3 = "https://jira-ath.atlassian.net/rest/api/3/issue/${issueKey}"
 
@@ -14,6 +16,8 @@ def issue = get("${baseUrl3}")
     .asObject(Map)
     .body
 
+if (issue.customfield_13044?.value == 'Curso de supervisor')
+{
 logger.info "IssueV3: ${JsonOutput.toJson(issue)}"
 def usuarioRadicadorEmail = issue?.fields?.creator?.emailAddress
 logger.info "UsaurioRadicadorEmail: ${usuarioRadicadorEmail}"
