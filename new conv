@@ -1,1 +1,23 @@
-Validar en la base de conocimiento en la Pagina 383451228, si el contendio del campo "Descripcción" continee nombre o correo de la pagina.
+A continuación, se presentan las instrucciones para un prompt de Rovo que busca validar si un campo de "Descripción" contiene nombres o correos electrónicos, basándose en la información de una página específica en Confluence.
+Instrucciones para el Prompt en Rovo
+1. Define el objetivo del agente:
+El primer paso es indicar claramente qué tiene que hacer el agente.
+ * Objetivo: "Verificar el contenido del campo 'Descripción' de un ticket de Jira contra la información de la página 383451228 de Confluence."
+2. Describe la fuente de datos:
+Especifica exactamente dónde debe buscar la información. La URL y la ID de la página son cruciales para que Rovo sepa dónde actuar.
+ * Fuente de datos: "Página de Confluence con ID 383451228."
+3. Establece la condición de validación:
+Aquí defines la lógica que Rovo aplicará. Le indicas qué tipo de información tiene que buscar y en qué campo.
+ * Condición: "Validar si el campo 'Descripción' del ticket de Jira contiene cualquier nombre de persona o dirección de correo electrónico que se encuentre listado en la página de Confluence."
+4. Define la respuesta o acción a seguir:
+Indica qué debe hacer Rovo si encuentra una coincidencia. Esto puede ser una simple notificación, un comentario, o una acción más compleja.
+ * Acción: "Si se encuentra una coincidencia, el agente debe dejar un comentario en el ticket de Jira indicando que la descripción contiene información sensible (nombre o correo electrónico) y debe ser corregida."
+   * Comentario de ejemplo: "⚠️ Alerta de Seguridad: La descripción de este ticket parece contener información personal. Por favor, revisa el contenido y elimina cualquier nombre o correo electrónico."
+Ejemplo de cómo se vería el prompt completo:
+[Prompt de Rovo]
+- Objetivo: Validar el contenido del campo 'Descripción'.
+- Fuente: Base de conocimiento en la página de Confluence con ID 383451228.
+- Condición: Verificar si el campo 'Descripción' contiene nombres o correos electrónicos que están presentes en esa página.
+- Acción: Si se detecta información personal, dejar un comentario de advertencia en el ticket.
+
+Esta estructura es clara y directa, lo que facilita que Rovo interprete la tarea y la ejecute con precisión.
