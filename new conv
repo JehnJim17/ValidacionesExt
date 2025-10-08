@@ -1,0 +1,23 @@
+Claro, Rovo de Atlassian es una herramienta de IA que se integra con productos como Jira y Confluence para automatizar tareas. Para lo que necesitas, que el agente se active al cambiar el estado de un ticket o al usar una transición específica, la descripción del trigger y las instrucciones deben ser claras y directas.
+Descripción del Trigger
+La descripción del trigger debe ser una frase corta y concisa que resuma cuándo se activará el agente. Debe ser fácil de entender para cualquier usuario que revise las automatizaciones.
+Ejemplo:
+"Activar el agente cuando un issue cambie de estado o se use una transición específica."
+Instrucciones para el Trigger
+Las instrucciones son el core de la configuración, aquí defines la lógica exacta que Rovo seguirá. Dado que necesitas que el trigger se active por un cambio de estado o una transición, puedes especificar la condición de la siguiente manera:
+ * Opción 1: Basado en el cambio de estado:
+   * Trigger: "Cuando el estado del issue cambie a 'En curso', 'Hecho', o 'Cerrado'."
+   * Instrucciones: "Ejecutar el agente para realizar la acción X cada vez que un ticket pase a uno de los estados especificados."
+ * Opción 2: Basado en el ID o nombre de la transición:
+   * Trigger: "Cuando se use la transición con ID '123' o nombre 'Aprobar'."
+   * Instrucciones: "Ejecutar el agente para notificar al equipo, crear un sub-ticket, o actualizar un campo cuando un usuario realice la transición 'Aprobar' en un issue."
+Consejos clave:
+ * Sé específico: Nombra los estados o transiciones exactos que activarán el agente.
+ * Sé claro: Evita la jerga y usa un lenguaje sencillo.
+ * Prueba: Antes de dejarlo en producción, prueba el escenario para asegurarte de que el trigger se comporta como esperas.
+Ejemplo Completo de Configuración
+Supongamos que quieres que un agente se active cuando un ticket de Jira se mueve al estado "En curso".
+ * Nombre del Scenario: "Notificar asignado al iniciar trabajo"
+ * Descripción del Trigger: "Activar cuando un issue sea movido a 'En curso'."
+ * Instrucciones: "El agente debe enviar una notificación al usuario asignado y agregar un comentario predefinido al ticket cuando este cambie su estado a 'En curso'."
+Esta estructura clara y concisa asegura que Rovo entienda perfectamente la lógica y que la automatización funcione como se desea.
