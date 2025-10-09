@@ -1,23 +1,401 @@
-A continuación, se presentan las instrucciones para un prompt de Rovo que busca validar si un campo de "Descripción" contiene nombres o correos electrónicos, basándose en la información de una página específica en Confluence.
-Instrucciones para el Prompt en Rovo
-1. Define el objetivo del agente:
-El primer paso es indicar claramente qué tiene que hacer el agente.
- * Objetivo: "Verificar el contenido del campo 'Descripción' de un ticket de Jira contra la información de la página 383451228 de Confluence."
-2. Describe la fuente de datos:
-Especifica exactamente dónde debe buscar la información. La URL y la ID de la página son cruciales para que Rovo sepa dónde actuar.
- * Fuente de datos: "Página de Confluence con ID 383451228."
-3. Establece la condición de validación:
-Aquí defines la lógica que Rovo aplicará. Le indicas qué tipo de información tiene que buscar y en qué campo.
- * Condición: "Validar si el campo 'Descripción' del ticket de Jira contiene cualquier nombre de persona o dirección de correo electrónico que se encuentre listado en la página de Confluence."
-4. Define la respuesta o acción a seguir:
-Indica qué debe hacer Rovo si encuentra una coincidencia. Esto puede ser una simple notificación, un comentario, o una acción más compleja.
- * Acción: "Si se encuentra una coincidencia, el agente debe dejar un comentario en el ticket de Jira indicando que la descripción contiene información sensible (nombre o correo electrónico) y debe ser corregida."
-   * Comentario de ejemplo: "⚠️ Alerta de Seguridad: La descripción de este ticket parece contener información personal. Por favor, revisa el contenido y elimina cualquier nombre o correo electrónico."
-Ejemplo de cómo se vería el prompt completo:
-[Prompt de Rovo]
-- Objetivo: Validar el contenido del campo 'Descripción'.
-- Fuente: Base de conocimiento en la página de Confluence con ID 383451228.
-- Condición: Verificar si el campo 'Descripción' contiene nombres o correos electrónicos que están presentes en esa página.
-- Acción: Si se detecta información personal, dejar un comentario de advertencia en el ticket.
+using AutoGen.Core;
+using Azure;
+using Azure.AI.Agents.Persistent;
+using Azure.AI.DocumentIntelligence;
+using Azure.AI.Inference;
+using Azure.AI.OpenAI;
+using Azure.AI.Projects;
+using Azure.Core;
+using Azure.Core.Pipeline;
+using Azure.Identity;
+using ExtraerDataSharepoint.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Graph;
+using Microsoft.Identity.Web;
+using OpenAI;
+using OpenAI.Chat;
+using System.Diagnostics;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Text.Json;
+using System.Text.RegularExpressions;
 
-Esta estructura es clara y directa, lo que facilita que Rovo interprete la tarea y la ejecute con precisión.
+
+namespace ExtraerDataSharepoint.Controllers
+
+
+{
+    public class HomeController : Controller
+    {
+
+        private readonly ITokenAcquisition _tokenAcquisition;
+        private readonly IConfiguration _configuration;
+        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly HttpClient _httpClient;
+        private readonly string _endpoint;
+        private readonly string _apiKey;
+        private readonly string _deployment;
+        private readonly string _IdAgent;
+        private readonly string _DIEndpoint;
+        private readonly string _DIKey;
+        public HomeController(
+            ITokenAcquisition tokenAcquisition, 
+            IConfiguration configuration, 
+            IHttpClientFactory httpClientFactory, 
+            HttpClient httpClient)
+        {
+            _tokenAcquisition = tokenAcquisition;
+            _configuration = configuration;
+            _httpClientFactory = httpClientFactory;
+            _httpClient = httpClient;
+
+            // Leer valores de Azure IA Foundry
+            _endpoint = _configuration["AzureOpenAI:Endpoint"];
+            _apiKey = _configuration["AzureOpenAI:ApiKey"];
+            _deployment = _configuration["AzureOpenAI:Deployment"];
+            _IdAgent = _configuration["AzureOpenAI:IdAgent"];
+
+            // Lee valores de Document Intelligent
+            _DIEndpoint = _configuration["DocumentIntelligent:Endpoint"];
+            _DIKey = _configuration["DocumentIntelligent:Key"];
+        }
+
+
+        //Valida si el usuario ya esta loggeado
+        [AllowAnonymous]
+        public IActionResult Index()
+        {
+            if (User.Identity?.IsAuthenticated ?? false)
+            {
+                return RedirectToAction("Dashboard");
+            }
+            return View();
+        }
+
+        //Devuelve la data del usuario loggeado
+        [Authorize]
+        [AuthorizeForScopes(Scopes = new[] { "User.Read" })]
+        public async Task<IActionResult> Dashboard([FromServices] GraphServiceClient graphClient)
+        {
+            var me = await graphClient.Me.Request().GetAsync();
+
+            var userInfo = new UserInfo
+            {
+                Name = me.DisplayName,
+                Email = me.Mail ?? me.UserPrincipalName,
+                JobTitle = me.JobTitle,
+                ObjectId = me.Id,
+                TenantId = User.FindFirst("http://schemas.microsoft.com/identity/claims/tenantid")?.Value
+                           ?? "Tenant no encontrado"
+            };
+
+            return View(userInfo);
+        }
+
+        //Procesa conexi�n con Sharepoint 
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> ProcessSharePoint()
+        {
+            try
+            {
+                var sharePointScope = $"https://{_configuration["SharePoint:HostName"]}/.default";
+                var accessToken = await _tokenAcquisition.GetAccessTokenForUserAsync(new[] { sharePointScope });
+                var client = _httpClientFactory.CreateClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                var siteUrl = _configuration["SharePoint:UrLSite"];
+
+                // Archivos locales
+                string csvPath = "procesados.csv";
+                string logPath = "errores.log";
+
+                // Detectar �ltimo Id procesado para reanudar
+                int lastProcessedId = 0;
+                if (System.IO.File.Exists(csvPath))
+                {
+                    var lastLine = System.IO.File.ReadLines(csvPath).LastOrDefault();
+                    if (!string.IsNullOrEmpty(lastLine) && !lastLine.StartsWith("IdItem"))
+                    {
+                        var parts = lastLine.Split(',', 2);
+                        if (int.TryParse(parts[0], out int id))
+                        {
+                            lastProcessedId = id;
+                        }
+                    }
+                }
+                else
+                {
+                    // Crear archivo con encabezado si no existe
+                    System.IO.File.WriteAllText(csvPath, "IdItem,Json\n");
+                }
+                Console.WriteLine($"?? Reanudando desde IdItem > {lastProcessedId}");
+
+                try
+                {
+                    var response = await client.GetAsync(siteUrl);
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        return Json(new { success = false, error = response.ReasonPhrase });
+                    }
+                    var content = await response.Content.ReadAsStringAsync();
+                    var json = JsonDocument.Parse(content);
+                    var items = json.RootElement.GetProperty("value");
+                    var result = new List<object>();   
+                    List<string> finalJson = new List<string>();
+
+                    foreach (var item in items.EnumerateArray())
+                    {
+                        List<string> attachments = new List<string>();
+                        int itemId = item.GetProperty("Id").GetInt32();
+                        // ?? Saltar si ya fue procesado
+                        if (itemId <= lastProcessedId) continue;
+
+                        // 2. Llamar a los adjuntos de cada item
+                        var attachUrl = $"{siteUrl}({itemId})/AttachmentFiles";
+                        var attachResponse = await client.GetAsync(attachUrl);
+
+                        if (attachResponse.IsSuccessStatusCode)
+                        {
+                            var attachContent = await attachResponse.Content.ReadAsStringAsync();
+                            var attachJson = JsonDocument.Parse(attachContent);
+
+                            if (attachJson.RootElement.TryGetProperty("value", out var attachArray))
+                            {
+                                foreach (var att in attachArray.EnumerateArray())
+                                {
+                                    var relativeUrl = att.GetProperty("ServerRelativeUrl").GetString();
+                                    var fileUrl = $"https://clsdevtestenv.sharepoint.com{relativeUrl}";
+
+                                    try
+                                    {
+                                        // Descargar archivo
+                                        var apiRestSharepoint = _configuration["SharePoint:ApiRest"];
+                                        var fileApiUrl = $"{apiRestSharepoint}('{relativeUrl}')/$value";
+                                        var fileResponse = await client.GetAsync(fileApiUrl);
+                                        if (fileResponse.IsSuccessStatusCode)
+                                        {
+                                            var fileBytes = await fileResponse.Content.ReadAsByteArrayAsync();
+                                            var base64 = ConvertFileToBase64(fileBytes);
+                                            var generateJsonByDocumentIntelligent = await ConvertJsonDocumentIntelligent(base64);
+                                            var processIaData = await ConsultarAgente(generateJsonByDocumentIntelligent);
+
+                                            Console.Write("******************************************");
+                                            Console.Write($"Procesando: {processIaData}");
+                                            Console.Write("******************************************");
+
+                                            // Limpieza antes de deserializar
+                                            string cleanJson = SanitizeJson(processIaData);
+                                            var data = JsonSerializer.Deserialize<Dictionary<string, object>>(cleanJson);
+                                            data["IdItem"] = itemId;
+                                            string updatedJson = JsonSerializer.Serialize(data);
+                                            attachments.Add(updatedJson);
+                                        }
+                                    }
+                                    catch (Exception exItem)
+                                    {
+                                        // Guardar error y continuar
+                                        System.IO.File.AppendAllText(logPath, $"Error en item {itemId}: {exItem}\n");
+                                        Console.WriteLine($"? Error en item {itemId}, ver log.");
+                                    } 
+                                }
+                            }
+                        }
+                        var dataresult = attachments;
+                        string temporaDataItems = "";
+
+                        foreach (var data in dataresult)
+                        {
+                            // Concatenar con coma
+                            if (!string.IsNullOrEmpty(temporaDataItems))
+                                temporaDataItems += ",";
+                            temporaDataItems += data;
+                        }
+
+                        // ?? Guardar en CSV (escape de comillas)
+                        string safeJson = temporaDataItems.Replace("\"", "\"\"");
+                        string line = $"{itemId},\"{safeJson}\"";
+                        System.IO.File.AppendAllText(csvPath, line + Environment.NewLine);
+                        Console.WriteLine($"? Guardado en CSV item {itemId}");
+                    }
+
+                    //var finalResult = finalJson;
+                    Console.Write("******************************************");
+                    Console.Write($"Procesando: Completado");
+                    Console.Write("******************************************");
+                    return Json(new { success = true, data = json.RootElement });
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { Error = false, data = ex.ToString() });
+                };
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, error = ex.Message });
+            }
+        }
+
+
+        //Limpia el JSON retornado por el agente
+        string SanitizeJson(string raw)
+        {
+            if (string.IsNullOrWhiteSpace(raw))
+                return "{}";
+
+            raw = Regex.Replace(raw, @"^```[a-zA-Z]*\s*|\s*```$", "", RegexOptions.Multiline);
+            raw = Regex.Replace(raw, @"^\s*json\s*", "", RegexOptions.IgnoreCase);
+
+            int firstBrace = raw.IndexOf('{');
+            if (firstBrace >= 0)
+                raw = raw.Substring(firstBrace);
+
+            int lastBrace = raw.LastIndexOf('}');
+            if (lastBrace >= 0 && lastBrace + 1 < raw.Length)
+                raw = raw.Substring(0, lastBrace + 1);
+
+            raw = raw.Trim();
+
+            try
+            {
+                JsonDocument.Parse(raw);
+                return raw;
+            }
+            catch
+            {
+                try
+                {
+                    var inner = JsonSerializer.Deserialize<string>(raw);
+                    if (!string.IsNullOrWhiteSpace(inner))
+                    {
+                        JsonDocument.Parse(inner); 
+                        return inner;
+                    }
+                }
+                catch { }
+
+                return "{}";
+            }
+        }
+
+        //Interactua con el agente
+        public async Task<String> ConsultarAgente(string dataDocumentoExtractt)
+        {
+            using JsonDocument doc = JsonDocument.Parse(dataDocumentoExtractt);
+            string content = doc.RootElement.GetProperty("analyzeResult").GetProperty("content").GetString();
+            content = content.Replace("\n", " ");
+
+            var endpoint = new Uri(_endpoint);
+            var credential = new DefaultAzureCredential(); 
+            var projectClient = new AIProjectClient(endpoint, credential);
+
+            PersistentAgentsClient agentsClient = projectClient.GetPersistentAgentsClient();
+
+            PersistentAgent agent = agentsClient.Administration.GetAgent(_IdAgent);
+            PersistentAgentThread thread = agentsClient.Threads.CreateThread();
+            Console.WriteLine($"Created thread, ID: {thread.Id}");
+
+            // Env�a el mensaje al agente
+            PersistentThreadMessage messageResponse = agentsClient.Messages.CreateMessage(
+                thread.Id,
+                MessageRole.User,
+                content
+            );
+
+            try
+            {
+                ThreadRun run = agentsClient.Runs.CreateRun(thread.Id, agent.Id);
+                do
+                {
+                    await Task.Delay(TimeSpan.FromMilliseconds(500));
+                    run = agentsClient.Runs.GetRun(thread.Id, run.Id);
+                }
+                while (run.Status == RunStatus.Queued || run.Status == RunStatus.InProgress);
+                if (run.Status != RunStatus.Completed)
+                {
+                    throw new InvalidOperationException($"Run failed or was canceled: {run.LastError?.Message}");
+                }
+
+                var runMessages = agentsClient.Messages.GetMessages(
+                    thread.Id,
+                    runId: run.Id,
+                    order: ListSortOrder.Ascending
+                );
+
+                string respuesta = null;
+                foreach (var m in runMessages)
+                {
+                    if (m.Role == MessageRole.Agent)
+                    {
+                        foreach (var c in m.ContentItems)
+                        {
+                            if (c is MessageTextContent t)
+                            {
+                                respuesta = t.Text;
+                                break;
+                            }
+                        }
+                    }
+                    if (respuesta != null) break;
+                }
+                ;
+
+                var resultExecution = respuesta;
+                Console.WriteLine("Documento procesado correctamente");
+                return respuesta.ToString();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al procesar el documento: {ex.ToString()}");
+                throw;
+            }
+        }
+
+   
+        //Convierte a base64
+        private string ConvertFileToBase64(byte[] fileBytes)
+        {
+            if (fileBytes == null || fileBytes.Length == 0)
+                return string.Empty;
+
+            return Convert.ToBase64String(fileBytes);
+        }
+
+        //Arma el json de document intelligent
+        private async Task<String> ConvertJsonDocumentIntelligent(string documentBase64)
+        {
+
+            string endpoint = _DIEndpoint;
+            string key = _DIKey;
+
+            AzureKeyCredential credential = new AzureKeyCredential(key);
+            DocumentIntelligenceClient client = new DocumentIntelligenceClient(new Uri(endpoint), credential);
+
+            string base64String = documentBase64;
+            byte[] bytes = Convert.FromBase64String(base64String);
+            BinaryData data = new BinaryData(bytes);
+            string modelId = "prebuilt-read"; 
+            Operation<AnalyzeResult> operation = await client.AnalyzeDocumentAsync(WaitUntil.Completed, modelId, data);
+            string result = operation.GetRawResponse().Content.ToString();
+            var dataResultJson = new ContentResult
+            {
+                Content = result,
+                ContentType = "application/json",
+                StatusCode = 200
+            };
+
+            var dataDocumentoExtractt = dataResultJson.Content.ToString();
+            return dataDocumentoExtractt;
+        }
+
+
+
+        [AllowAnonymous]
+        public IActionResult Privacy()
+        {
+            return View();
+        }
+    }
+}
