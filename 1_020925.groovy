@@ -1,1 +1,47 @@
-con tu expertis en python crea un codigo para colab que pida el archivo excel que tendra una columna de padres una columan de hijo una de id  y una de fecha, el hijo siempre tendra información, y los padres hay unos que pueden no tener datos, siempre que tenemos hijos dentor de padrea debemos poner la fecha mas actualizada de finalizacion a el padre y si es unico y sin padre poner el mimo valor de Hijo como padre indicame si te quedo claro y que vas a hacer e indicame el codigo de colab   
+import pandas as pd
+import io
+from google.colab import files
+
+def procesar_jerarquia():
+    # 1. Subir el archivo
+    print("Por favor, sube tu archivo Excel:")
+    uploaded = files.upload()
+    
+    # Obtener el nombre del archivo subido
+    file_name = list(uploaded.keys())[0]
+    df = pd.read_excel(io.BytesIO(uploaded[file_name]))
+    
+    # --- Configuración de nombres de columnas ---
+    # Ajusta estos nombres si tu Excel tiene cabeceras distintas
+    col_padre = 'padre'
+    col_hijo = 'hijo'
+    col_id = 'id'
+    col_fecha = 'fecha'
+    
+    # 2. Limpieza inicial: Asegurar que la fecha sea tipo datetime
+    df[col_fecha] = pd.to_datetime(df[col_fecha])
+    
+    # 3. Lógica de Hijo Único: Si el padre es nulo, el padre es el hijo
+    df[col_padre] = df[col_padre].fillna(df[col_hijo])
+    
+    # 4. Calcular la fecha más actualizada (máxima) por cada Padre
+    # Esto crea un mapa de: Padre -> Fecha más reciente de sus hijos
+    fechas_maximas = df.groupby(col_padre)[col_fecha].max().reset_index()
+    fechas_maximas.columns = [col_padre, 'fecha_actualizada']
+    
+    # 5. Unir la fecha actualizada al dataframe original
+    df_final = df.merge(fechas_maximas, on=col_padre, how='left')
+    
+    # Reemplazamos la fecha original por la actualizada si queremos que todos 
+    # los miembros del grupo compartan la fecha del más reciente
+    df_final[col_fecha] = df_final['fecha_actualizada']
+    df_final = df_final.drop(columns=['fecha_actualizada'])
+    
+    # 6. Descargar el resultado
+    output_name = "procesado_" + file_name
+    df_final.to_excel(output_name, index=False)
+    print(f"\nProceso completado. Descargando: {output_name}")
+    files.download(output_name)
+
+# Ejecutar la función
+procesar_jerarquia()
