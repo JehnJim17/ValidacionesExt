@@ -1,3 +1,7 @@
+Charlie yo no quiero pasr por grosera ni nada de esto, se que hoy he estado como muy reactiva, pero de verdad yo quiero que esto quede aclarado lo mas pronto posible, por que sinceramente, yo deje dos oportunidades laborales por que santiago tenia todo arreglado, y sinceramente fue cosas por las que estaba por salir , ademas sergio ni se imagina lo que dijeron, no nos dejan ni negociar osea, literal es entreguenos y ya... no me parece que el trabajo no solo de 2 personas si no de 6 personas quede reducido a Egos
+
+
+
 import pandas as pd
 import io
 from google.colab import files
