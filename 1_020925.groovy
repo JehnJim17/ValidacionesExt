@@ -1,5 +1,4 @@
-https://www.metrocuadrado.com/inmueble/venta-apartamento-bogota-galerias-2-habitaciones-2-banos-1-garajes/15738-M6139674?src_url=%2Fapartamento%2Fventa%2Fusado%2Fbogota%2Fmodelo-norte%2F2-banos-330-millones%2F%3Fsearch%3Dform
-
+https://www.metrocuadrado.com/inmueble/venta-apartamento-bogota-prado-veraniego-sur-2-habitaciones-2-banos-1-garajes/20036-M5979555?src_url=%2Fapartamento%2Fventa%2Fusado%2Fbogota%2Fmodelo-norte%2F2-banos-330-millones%2F%3Fsearch%3Dform
 
 import pandas as pd
 import io
