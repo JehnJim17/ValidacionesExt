@@ -1,9 +1,102 @@
-Opcion	Nivel en salarios minimos 	Accion
-1	Instancia I - Hasta 250 SMMLV	Lenar campo de nivel instancia 
-2	Instancia II - Hasta 500 SMMLV	Lenar campo de nivel instancia 
-3	Instancia III - Hasta 750 SMMLV	Lenar campo de nivel instancia 
-4	Instancia IV - Hasta 2000 SMMLV	Lenar campo de nivel instancia 
-5	Instancia V - Comité de Compras AVC - Hasta 4000 SMMLV	trancisionar
-6	Nivel 2: Hasta 65,000 SMMLV	trancisionar
-7	Nivel 3: Hasta 100,000 SMMLV	trancisionar
-8	Nivel 4: > 100,000 SMMLV	trancisionar
+# === STEP 1: install deps ===
+!pip install xmltodict networkx
+
+# === STEP 2: upload workflow XML ===
+from google.colab import files
+
+uploaded = files.upload()
+
+xml_file = list(uploaded.keys())[0]
+print(f"Loaded: {xml_file}")
+
+# === STEP 3: parse XML ===
+import xmltodict
+import networkx as nx
+
+with open(xml_file, "r", encoding="utf8") as f:
+    xml_data = xmltodict.parse(f.read())
+
+# Jira workflows hide deep… let's locate transitions safely
+workflow = xml_data.get("workflow") or xml_data
+
+steps = workflow.get("steps", {}).get("step", [])
+transitions = workflow.get("transitions", {}).get("transition", [])
+
+if not isinstance(steps, list):
+    steps = [steps]
+
+if not isinstance(transitions, list):
+    transitions = [transitions]
+
+# Map step id → name
+step_map = {}
+
+for s in steps:
+    step_map[s["@id"]] = s.get("@name","Unknown")
+
+# === STEP 4: build logical graph ===
+
+G = nx.DiGraph()
+
+docs = []
+
+for t in transitions:
+    name = t.get("@name","Unnamed")
+    from_id = t.get("@from")
+    to_id = t.get("@to")
+
+    source = step_map.get(from_id,"Start")
+    target = step_map.get(to_id,"Unknown")
+
+    conditions = t.get("conditions",{})
+    validators = t.get("validators",{})
+    post = t.get("post-functions",{})
+
+    G.add_edge(source,target,name=name)
+
+    docs.append({
+        "from": source,
+        "to": target,
+        "name": name,
+        "conditions": conditions,
+        "validators": validators,
+        "post": post
+    })
+
+# === STEP 5: generate markdown ===
+
+md = []
+md.append("# 📄 Jira Workflow Documentation\n")
+
+states = set()
+
+for d in docs:
+    states.add(d["from"])
+    states.add(d["to"])
+
+md.append("## 🧩 Estados\n")
+for s in sorted(states):
+    md.append(f"- {s}")
+
+for d in docs:
+    md.append(f"\n---\n## ➡️ {d['from']} → {d['to']}")
+    md.append(f"### Transición: {d['name']}")
+
+    md.append("\n### Condiciones")
+    md.append(f"```\n{d['conditions']}\n```")
+
+    md.append("\n### Validadores")
+    md.append(f"```\n{d['validators']}\n```")
+
+    md.append("\n### Post-Funciones")
+    md.append(f"```\n{d['post']}\n```")
+
+output_file = "workflow_documentation.md"
+
+with open(output_file,"w",encoding="utf8") as f:
+    f.write("\n".join(md))
+
+print("Generated:", output_file)
+
+# === STEP 6: download result ===
+files.download(output_file)
