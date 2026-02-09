@@ -1,10 +1,9 @@
 # ==========================================================
-# Encuesta Jira -> Limpieza y expansión (sin cálculo de promedio)
-# (Celda única para Google Colab)
-# Cambios:
-# 1) Renombra "Feedback (num)" a "¿Qué tan satisfecho estás con la solución entregada a tu requerimiento?"
-# 2) Omite cálculo de "Satisfacción (1-5)" y cualquier ponderado.
-# 3) Q4 vacío -> "No hubo comentarios".
+# Encuesta Jira -> Limpieza y expansión (sin cálculo final)
+# - Incluye TODAS las columnas originales + nuevas Q1..Q4
+# - Renombra Feedback (num)
+# - Q4 vacío -> "No hubo comentarios"
+# - Exporta con COMAS (Excel-friendly)
 # ==========================================================
 
 import re
@@ -75,19 +74,21 @@ def limpiar_y_extraer(cell: str):
     return ans
 
 # ---------------------------
-# 3) Cargar y procesar dataset
+# 3) Cargar dataset
 # ---------------------------
 df = pd.read_csv(input_path, sep=';', dtype=str, encoding='utf-8')
 df.columns = [c.strip() for c in df.columns]
 
-# Algunas exportaciones incluyen una fila residual 'sep=': la eliminamos
+# Eliminar fila residual 'sep=' si existe
 if 'Ticket-id' in df.columns:
     df = df[df['Ticket-id'].astype(str).str.strip() != 'sep=']
 
-# Validación de columna
+# Validar columna necesaria
 assert 'Questions/Answers' in df.columns, "No se encontró la columna 'Questions/Answers' en el CSV."
 
-# Extraer Q1..Q4 desde el texto en bloque
+# ---------------------------
+# 4) Extraer Q1..Q4 desde 'Questions/Answers'
+# ---------------------------
 extracted = df['Questions/Answers'].apply(limpiar_y_extraer)
 extracted_df = pd.DataFrame(list(extracted)).rename(columns={
     Q1: 'Q1 - Resolver a través de Verona fue fácil',
@@ -104,12 +105,23 @@ extracted_df['Q4 - ¿Qué podríamos mejorar?'] = (
     .replace({'': 'No hubo comentarios'})
 )
 
-# Unir con las columnas originales (quitando Questions/Answers)
-result_df = pd.concat([df.drop(columns=['Questions/Answers']), extracted_df], axis=1)
+# ---------------------------
+# 5) Construir resultado:
+#    - Partimos de TODAS las columnas originales (sin omitir ninguna)
+#    - Quitamos 'Questions/Answers' (ya expandida)
+#    - Agregamos Q1..Q4 al final
+#    - Agregamos columnas numéricas Q1..Q3
+#    - Agregamos Feedback (num) renombrado
+# ---------------------------
+# Base con todas las columnas originales excepto Questions/Answers:
+base_cols = [c for c in df.columns if c != 'Questions/Answers']
+result_df = df[base_cols].copy()
 
-# ---------------------------
-# 4) Mapeo a números + Feedback (renombrado)
-# ---------------------------
+# Anexar Q1..Q4 (texto)
+for c in extracted_df.columns:
+    result_df[c] = extracted_df[c]
+
+# Columnas numéricas para Q1..Q3
 for col in [
     'Q1 - Resolver a través de Verona fue fácil',
     'Q2 - Tiempo de atención adecuado',
@@ -119,37 +131,18 @@ for col in [
     result_df[col + ' (num)'] = result_df[col].map(LIKERT_MAP)
 
 # Extraer el número de "Feedback" desde "X out of 5" y RENOMBRAR
-feedback_num_col = '# ¿Qué tan satisfecho estás con la solución entregada a tu requerimiento?'
+feedback_num_col = '¿Qué tan satisfecho estás con la solución entregada a tu requerimiento?'
 result_df[feedback_num_col] = (
     result_df['Feedback'].astype(str)
     .str.extract(r'(\d+)')
     .astype(float)
 )
 
-# ---------------------------
-# 5) (Sin cálculo de promedio ni ponderados)
-# ---------------------------
-# Se omite cualquier cálculo de "Satisfacción (1-5)".
-
-# ---------------------------
-# 6) Orden sugerido de columnas (sin Satisfacción)
-# ---------------------------
-ordered_cols = [
-    'Ticket-id','Ticket summary','Survey Name','Feedback', feedback_num_col,
-    'Assignee','Answered By','Answered On','Comment',
-    'Resolver a través de Verona fue fácil','# Resolver a través de Verona fue fácil',
-    'Tiempo de atención adecuado','#Tiempo de atención adecuado',
-    'El equipo del CSA entendió y acompañó','#El equipo del CSA entendió y acompañó',
-    '¿Qué podríamos mejorar?'
-]
-ordered_cols = [c for c in ordered_cols if c in result_df.columns]
-result_df = result_df[ordered_cols]
-
 print("Procesamiento completado. Vista previa:")
 display(result_df.head())
 
 # ---------------------------
-# 7) Guardar y descargar CSV con COMAS (Excel-friendly)
+# 6) Guardar y descargar CSV con COMAS (Excel-friendly)
 # ---------------------------
 output_path = 'jira-survey-feedback-table_QA_expandido_comas.csv'
 result_df.to_csv(output_path, index=False, encoding='utf-8-sig')
