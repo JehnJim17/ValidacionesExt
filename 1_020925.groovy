@@ -1,6 +1,10 @@
 # ==========================================================
-# Encuesta Jira -> Limpieza, expansión y cálculo de satisfacción
+# Encuesta Jira -> Limpieza y expansión (sin cálculo de promedio)
 # (Celda única para Google Colab)
+# Cambios:
+# 1) Renombra "Feedback (num)" a "¿Qué tan satisfecho estás con la solución entregada a tu requerimiento?"
+# 2) Omite cálculo de "Satisfacción (1-5)" y cualquier ponderado.
+# 3) Q4 vacío -> "No hubo comentarios".
 # ==========================================================
 
 import re
@@ -92,11 +96,19 @@ extracted_df = pd.DataFrame(list(extracted)).rename(columns={
     Q4: 'Q4 - ¿Qué podríamos mejorar?'
 })
 
+# Q4 vacío -> "No hubo comentarios"
+extracted_df['Q4 - ¿Qué podríamos mejorar?'] = (
+    extracted_df['Q4 - ¿Qué podríamos mejorar?']
+    .fillna('')
+    .apply(lambda x: x.strip() if isinstance(x, str) else x)
+    .replace({'': 'No hubo comentarios'})
+)
+
 # Unir con las columnas originales (quitando Questions/Answers)
 result_df = pd.concat([df.drop(columns=['Questions/Answers']), extracted_df], axis=1)
 
 # ---------------------------
-# 4) Mapeo a números + Feedback (num)
+# 4) Mapeo a números + Feedback (renombrado)
 # ---------------------------
 for col in [
     'Q1 - Resolver a través de Verona fue fácil',
@@ -106,44 +118,29 @@ for col in [
     result_df[col] = result_df[col].astype(str).str.strip()
     result_df[col + ' (num)'] = result_df[col].map(LIKERT_MAP)
 
-# Extraer "Feedback (num)" desde "X out of 5"
-result_df['Feedback (num)'] = (
+# Extraer el número de "Feedback" desde "X out of 5" y RENOMBRAR
+feedback_num_col = '# ¿Qué tan satisfecho estás con la solución entregada a tu requerimiento?'
+result_df[feedback_num_col] = (
     result_df['Feedback'].astype(str)
     .str.extract(r'(\d+)')
     .astype(float)
 )
 
 # ---------------------------
-# 5) Calcular Satisfacción (1-5)
-#    Promedio simple de: Feedback (num), Q1(num), Q2(num), Q3(num)
+# 5) (Sin cálculo de promedio ni ponderados)
 # ---------------------------
-num_cols = [
-    'Feedback (num)',
-    'Q1 - Resolver a través de Verona fue fácil (num)',
-    'Q2 - Tiempo de atención adecuado (num)',
-    'Q3 - El equipo del CSA entendió y acompañó (num)'
-]
-result_df['Satisfacción (1-5)'] = result_df[num_cols].mean(axis=1).round(2)
-
-# --- (OPCIONAL) Ponderación alternativa ---
-# Descomenta si quieres ponderar (ejemplo: 20% Feedback, 30% Q1, 25% Q2, 25% Q3)
-# result_df['Satisfacción (1-5)'] = (
-#     result_df['Feedback (num)'] * 0.20 +
-#     result_df['Q1 - Resolver a través de Verona fue fácil (num)'] * 0.30 +
-#     result_df['Q2 - Tiempo de atención adecuado (num)'] * 0.25 +
-#     result_df['Q3 - El equipo del CSA entendió y acompañó (num)'] * 0.25
-# ).round(2)
+# Se omite cualquier cálculo de "Satisfacción (1-5)".
 
 # ---------------------------
-# 6) Orden sugerido de columnas
+# 6) Orden sugerido de columnas (sin Satisfacción)
 # ---------------------------
 ordered_cols = [
-    'Ticket-id','Ticket summary','Survey Name','Feedback','Feedback (num)',
+    'Ticket-id','Ticket summary','Survey Name','Feedback', feedback_num_col,
     'Assignee','Answered By','Answered On','Comment',
-    'Q1 - Resolver a través de Verona fue fácil','Q1 - Resolver a través de Verona fue fácil (num)',
-    'Q2 - Tiempo de atención adecuado','Q2 - Tiempo de atención adecuado (num)',
-    'Q3 - El equipo del CSA entendió y acompañó','Q3 - El equipo del CSA entendió y acompañó (num)',
-    'Q4 - ¿Qué podríamos mejorar?','Satisfacción (1-5)'
+    'Resolver a través de Verona fue fácil','# Resolver a través de Verona fue fácil',
+    'Tiempo de atención adecuado','#Tiempo de atención adecuado',
+    'El equipo del CSA entendió y acompañó','#El equipo del CSA entendió y acompañó',
+    '¿Qué podríamos mejorar?'
 ]
 ordered_cols = [c for c in ordered_cols if c in result_df.columns]
 result_df = result_df[ordered_cols]
