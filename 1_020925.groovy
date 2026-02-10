@@ -1,1 +1,48 @@
-{\r\n\t\"data\": [\r\n\t\t\t\t{\r\n                    \"num_contrato\": \"EVA-AVC-20260206\",\r\n                    \"nit_entidad\": \"36557547\",\r\n                    \"nit_proveedor\": \"8060103930\",\r\n                    \"proveedor\": \"Banijobi S.L.\",\r\n                    \"tipo_evaluacion\": \"Prueba\",\r\n                    \"puntaje\": \"80.0\",\r\n                    \"ponderado\": \"100.0\",\r\n                    \"fecha_evaluacion\": \"2026-02-05\",\r\n                    \"evaluacion\" : [\r\n                        {\r\n                        \"orden\": 1,\r\n                        \"criterio\": \"Preguna 1\",\r\n                        \"calificacion\": \"45\"\r\n                        },\r\n                        {\r\n                        \"orden\": 2,\r\n                        \"criterio\": \"Preguna 2\",\r\n                        \"calificacion\": \"35\"\r\n                        }\r\n                    ]\r\n\t\t\t\t},\r\n                {\r\n                    \"num_contrato\": \"EVA-AVC-202602062\",\r\n                    \"nit_entidad\": \"36557547\",\r\n                    \"nit_proveedor\": \"8060103930\",\r\n                    \"proveedor\": \"Banijobi S.L.\",\r\n                    \"tipo_evaluacion\": \"Prueba\",\r\n                    \"puntaje\": \"80.0\",\r\n                    \"ponderado\": \"100.0\",\r\n                    \"fecha_evaluacion\": \"2025-11-22\",\r\n                    \"evaluacion\" : [\r\n                        {\r\n                        \"orden\": 1,\r\n                        \"criterio\": \"Preguna 1\",\r\n                        \"calificacion\": \"45\"\r\n                        },\r\n                        {\r\n                        \"orden\": 2,\r\n                        \"criterio\": \"Preguna 2\",\r\n                        \"calificacion\": \"35\"\r\n                        }\r\n                    ]\r\n\t\t\t\t}\r\n\t\t\t]\r\n}""
+{
+  "data": [
+    {
+      "num_contrato": "EVA-AVC-20260206",
+      "nit_entidad": "36557547",
+      "nit_proveedor": "8060103930",
+      "proveedor": "Banijobi S.L.",
+      "tipo_evaluacion": "Prueba",
+      "puntaje": "80.0",
+      "ponderado": "100.0",
+      "fecha_evaluacion": "2026-02-05",
+      "evaluacion": [
+        {
+          "orden": 1,
+          "criterio": "Preguna 1",
+          "calificacion": "45"
+        },
+        {
+          "orden": 2,
+          "criterio": "Preguna 2",
+          "calificacion": "35"
+        }
+      ]
+    },
+    {
+      "num_contrato": "EVA-AVC-202602062",
+      "nit_entidad": "36557547",
+      "nit_proveedor": "8060103930",
+      "proveedor": "Banijobi S.L.",
+      "tipo_evaluacion": "Prueba",
+      "puntaje": "80.0",
+      "ponderado": "100.0",
+      "fecha_evaluacion": "2025-11-22",
+      "evaluacion": [
+        {
+          "orden": 1,
+          "criterio": "Preguna 1",
+          "calificacion": "45"
+        },
+        {
+          "orden": 2,
+          "criterio": "Preguna 2",
+          "calificacion": "35"
+        }
+      ]
+    }
+  ]
+}
