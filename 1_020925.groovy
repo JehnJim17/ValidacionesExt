@@ -1,6 +1,7 @@
 # ============================================================
 # JSM Cloud - Parseo de change log y cálculo de tiempos
 # Autoría: preparado para Google Colab (Jennifer A. Jiménez)
+# 24 Feb 2026
 # ============================================================
 
 # --- 0) Dependencias ---
