@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # ============================================================
 # JSM Cloud - Parseo de change log y cálculo de tiempos
 # Autoría: preparado para Google Colab (Jennifer A. Jiménez)
@@ -12,6 +11,14 @@ import math
 from datetime import datetime, timedelta, time, date
 from zoneinfo import ZoneInfo
 import pandas as pd
+
+# Instalar xlsxwriter si no está presente
+try:
+    import xlsxwriter
+except ImportError:
+    print("Instalando xlsxwriter...")
+    !pip install xlsxwriter
+    import xlsxwriter
 
 try:
     from google.colab import files  # disponible en Colab
@@ -168,14 +175,14 @@ def extraer_transiciones_status(raw_text: str):
     all_created = []
     for line in lines:
         if '"created":' in line:
-            m = re.search(r'"created"\s*:\s*"([0-9T:\-\.\\+:]*)"', line)
+            m = re.search(r'"created"\s*:\s*"([0-9T:\-\\.+:]*)"', line)
             if m:
                 all_created.append(m.group(1))
 
     # Recorremos nuevamente para casar created -> status
     for i, line in enumerate(lines):
         if '"created":' in line:
-            m = re.search(r'"created"\s*:\s*"([0-9T:\-\.\\+:]*)"', line)
+            m = re.search(r'"created"\s*:\s*"([0-9T:\-\\.+:]*)"', line)
             if m:
                 current_created = m.group(1)
 
@@ -326,21 +333,26 @@ def main(nombre_archivo: str = None):
     if not trans:
         raise RuntimeError(
             "No encontré transiciones de 'status' en el archivo. "
-            "Verifica el contenido (debe incluir 'fieldId\": \"status\"')."
+            "Verifica el contenido (debe incluir 'fieldId\": \"status\")."
         )
 
     intervals = construir_intervalos(trans, earliest_dt)
     df_detalle, df_resumen = construir_tablas(intervals)
 
-    # Exportar CSVs
-    df_detalle.to_csv("estados_detalle.csv", index=False, encoding="utf-8")
-    df_resumen.to_csv("estados_resumen.csv", index=False, encoding="utf-8")
+    # Exportar un solo Excel con dos hojas
+    excel_filename = "estados_consolidados.xlsx"
+    with pd.ExcelWriter(excel_filename, engine='xlsxwriter') as writer:
+        df_detalle.to_excel(writer, sheet_name='Detalle de Estados', index=False)
+        df_resumen.to_excel(writer, sheet_name='Resumen de Estados', index=False)
 
     print("✅ Listo. Archivos generados:")
-    print(" - estados_detalle.csv   (Estado | Inicio | Fin | Tiempo laboral | Tiempo 24h)")
-    print(" - estados_resumen.csv   (sumas por Estado + TOTAL)")
+    print(" - estados_consolidados.xlsx (Detalle y resumen en un solo archivo Excel)")
+
+    # Descargar archivos
+    if IN_COLAB:
+        files.download(excel_filename)
+
     display(df_detalle.head(15))
     display(df_resumen.head(20))
 
-# Ejecuta:
-# main()     # <-- en Colab, descomenta esta línea para usar el diálogo de subida
+main()
