@@ -762,21 +762,39 @@ output: document.getElementById('debug-output')
 // =================================
 //  HELPERS
 // =================================
-//https://19v6wa-unwbdrigx-2pk3ywbr85--1cj32pu-nfy114x9r-gytwp4d5r.cdn.prod.atlassian-dev.net/"
 // Metodo seguro para obtener la URL real dentro del HTML Macro Pro (Iframe)
+
 function getConfluenceUrl() {
     try {
-        // Mismo origen: funciona en HTML Macro Pro Block de Confluence
-        if (window.parent && window.parent.location.href) {
-            return window.parent.location.href;
+        // Estrategia 1: Buscar los parámetros estándar de Atlassian
+        // Atlassian SIEMPRE pasa la URL base en el parámetro 'xdm_e'
+        const urlParams = new URLSearchParams(window.location.search);
+        const baseUrl = urlParams.get('xdm_e'); 
+        
+        if (baseUrl) {
+            // Buscamos si la macro inyectó el ID de la página
+            const pageId = urlParams.get('page.id') || urlParams.get('pageId');
+            return pageId ? `${baseUrl} (PageID: ${pageId})` : baseUrl;
         }
+
+        // Estrategia 2: Usar 'ancestorOrigins' (Compatible con Chrome, Edge, Safari)
+        // Esto permite leer la cadena de dominios padre sin violar CORS
+        if (window.location.ancestorOrigins && window.location.ancestorOrigins.length > 0) {
+            // Tomamos el ancestro más alto (que será https://jira-ath.atlassian.net)
+            return window.location.ancestorOrigins[window.location.ancestorOrigins.length - 1];
+        }
+
+        // Estrategia 3: Fallback al referrer limpio
+        if (document.referrer) {
+            return document.referrer.split('?')[0];
+        }
+
     } catch (e) {
-        // Fallback si por alguna razón hay restricción cross-origin
+        console.warn("Error capturando el origen:", e);
     }
-    // document.referrer es el segundo mejor candidato
-    if (document.referrer) return document.referrer;
-    // Último recurso
-    return window.location.href;
+    
+    // Si absolutamente todo falla, mandamos la URL del CDN para tener rastreabilidad
+    return window.location.origin; 
 }
 function getValueByPath(obj, path) {
 return path.split('.').reduce((acc, part) => acc && acc[part] ? acc[part] : '', obj);
