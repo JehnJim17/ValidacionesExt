@@ -1,3 +1,5 @@
+Eres experto en Java Script, html y CSS, con seniority de mas de 15 años, analizaras el codigo del documento que esta embebido en un complemento de Confluence "HTML Macro Pro Block for confluence" del cual tambien tienes expertis, por favor valida principal mente el payload de "origen", ya que e necesario extrar el dominio en el cual esta el complenento y del cual se esta haciendo la consulta y donde esta enbeido el complemento, y esta extrayendo algo difernte a el dominio de la pagina como tal , luego indicame que corregirias que no tenga que ver con encriptar las url ya que no es posible  la consulta o payload enviado es a power automate, indicame que mejoras harias y finalemnte indicame el mismo codigo peoro sin las opciones de aprobacion y envio de correo confirmacion de logueo 
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
