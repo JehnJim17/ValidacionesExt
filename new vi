@@ -1,109 +1,91 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8" />
-    <title>Visualizador de Contratos - Verona</title>
-    <style>
-        :root {
-            --azul: #002b49;
-            --gris-bg: #f7f9fc;
-            --card-radius: 12px;
-        }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--gris-bg); margin: 0; }
-        .container { padding: 2rem; max-width: 1200px; margin: auto; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
-        table { width: 100%; border-collapse: collapse; background: #fff; border-radius: var(--card-radius); overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid #eee; }
-        th { background: var(--azul); color: #fff; }
-        .loading-spinner { display: none; text-align: center; padding: 2rem; }
-    </style>
-</head>
-<body>
-
-<div class="container">
-    <div class="header">
-        <h1>Mis Consultas | Verona</h1>
-        <button id="btn-refresh" class="btn-main">Actualizar Datos</button>
+<div id="front-home" class="home-wrapper">
+    <div class="home-inner">
+        <div class="home-left">
+            <h1 class="home-title">VERONA</h1>
+            <p style="color:white">Centro de Sinergias de Abastecimiento</p>
+        </div>
+        <div class="home-right">
+            <div class="home-card">
+                <button class="btn-main" onclick="iniciarConsulta('contratos')">CONSULTAR CONTRATOS</button>
+                <button class="btn-main secondary" onclick="iniciarConsulta('solicitudes')">CONSULTAR SOLICITUDES</button>
+            </div>
+        </div>
     </div>
+</div>
 
-    <div id="loading" class="loading-spinner">Cargando información...</div>
-    
-    <table id="tabla-contratos">
-        <thead>
-            <tr>
-                <th>ID Contrato</th>
-                <th>Nombre</th>
-                <th>Estado</th>
-                <th>Fecha</th>
-            </tr>
-        </thead>
-        <tbody id="lista-datos">
-            </tbody>
-    </table>
+<div id="front-filtros" class="u-hidden">
+    <div class="banner">
+        <div class="banner-back-circle" onclick="regresarAlHome()">←</div>
+        <div class="banner-title" id="titulo-pagina">Mis Consultas</div>
+    </div>
+    <div class="main-content">
+        <div id="loading-spinner" class="u-hidden">Cargando datos...</div>
+        <table id="tabla-resultados">
+            <thead id="cabecera-tabla"></thead>
+            <tbody id="cuerpo-tabla"></tbody>
+        </table>
+    </div>
 </div>
 
 <script>
-    const CONFIG = {
-        // URL del Webhook de Power Automate
-        webhookUrl: "https://prod-07.brazilsouth.logic.azure.com:443/...", 
-        // Extracción del dominio real de Confluence
-        origen: document.referrer ? new URL(document.referrer).origin : window.location.hostname
+    const state = {
+        currentMode: '', // 'contratos' o 'solicitudes'
+        webhookUrl: "https://prod-07.brazilsouth.logic.azure.com:443/...", // Tu URL de Power Automate
+        origen: document.referrer ? new URL(document.referrer).origin : window.location.origin
     };
 
-    async function fetchData() {
-        const loader = document.getElementById('loading');
-        const tabla = document.getElementById('lista-datos');
+    function iniciarConsulta(modo) {
+        state.currentMode = modo;
         
-        loader.style.display = 'block';
-        tabla.innerHTML = '';
+        // Cambio visual de pantallas
+        document.getElementById('front-home').classList.add('u-hidden');
+        document.getElementById('front-filtros').classList.remove('u-hidden');
+        document.getElementById('titulo-pagina').innerText = modo === 'contratos' ? 'Mis Contratos' : 'Mis Solicitudes';
+        
+        // Llamada directa al flujo sin pasar por correos o esperas
+        cargarDatosDesdePowerAutomate();
+    }
+
+    async function cargarDatosDesdePowerAutomate() {
+        const loader = document.getElementById('loading-spinner');
+        loader.classList.remove('u-hidden');
 
         const payload = {
-            origen: CONFIG.origen,
-            accion: "consultar_contratos",
-            timestamp: new Date().toISOString()
+            origen: state.origen,
+            tipoConsulta: state.currentMode,
+            accion: "fetch_data"
         };
 
         try {
-            const response = await fetch(CONFIG.webhookUrl, {
+            const response = await fetch(state.webhookUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             });
 
-            if (!response.ok) throw new Error("Error en la respuesta del servidor");
-
             const data = await response.json();
-            renderTable(data.datos || []);
+            renderizarTabla(data.datos || []);
         } catch (error) {
-            console.error("Error:", error);
-            tabla.innerHTML = `<tr><td colspan="4">Error al cargar datos. Intente de nuevo.</td></tr>`;
+            console.error("Error en la consulta:", error);
+            alert("No se pudieron obtener los datos de Power Automate.");
         } finally {
-            loader.style.display = 'none';
+            loader.classList.add('u-hidden');
         }
     }
 
-    function renderTable(items) {
-        const tbody = document.getElementById('lista-datos');
-        if (items.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="4">No se encontraron registros.</td></tr>`;
-            return;
-        }
+    function regresarAlHome() {
+        document.getElementById('front-filtros').classList.add('u-hidden');
+        document.getElementById('front-home').classList.remove('u-hidden');
+    }
 
-        tbody.innerHTML = items.map(item => `
+    function renderizarTabla(datos) {
+        const cuerpo = document.getElementById('cuerpo-tabla');
+        cuerpo.innerHTML = datos.map(item => `
             <tr>
-                <td>${item.id}</td>
-                <td>${item.nombre}</td>
-                <td>${item.estado}</td>
-                <td>${item.fecha}</td>
+                <td>${item.id || item.key}</td>
+                <td>${item.nombre || item.summary}</td>
+                <td>${item.estado || item.status}</td>
             </tr>
         `).join('');
     }
-
-    document.getElementById('btn-refresh').addEventListener('click', fetchData);
-
-    // Carga inicial automática
-    window.onload = fetchData;
 </script>
-
-</body>
-</html>
