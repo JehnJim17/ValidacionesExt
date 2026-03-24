@@ -762,7 +762,7 @@ output: document.getElementById('debug-output')
 // =================================
 //  HELPERS
 // =================================
-
+//https://19v6wa-unwbdrigx-2pk3ywbr85--1cj32pu-nfy114x9r-gytwp4d5r.cdn.prod.atlassian-dev.net/"
 // Metodo seguro para obtener la URL real dentro del HTML Macro Pro (Iframe)
 function getConfluenceUrl() {
     try {
