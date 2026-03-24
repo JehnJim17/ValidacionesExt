@@ -766,15 +766,18 @@ output: document.getElementById('debug-output')
 // Metodo seguro para obtener la URL real dentro del HTML Macro Pro (Iframe)
 function getConfluenceUrl() {
     try {
-        if (window.location !== window.parent.location) {
-            return document.referrer || window.parent.location.href;
+        // Mismo origen: funciona en HTML Macro Pro Block de Confluence
+        if (window.parent && window.parent.location.href) {
+            return window.parent.location.href;
         }
     } catch (e) {
-        return document.referrer;
+        // Fallback si por alguna razón hay restricción cross-origin
     }
+    // document.referrer es el segundo mejor candidato
+    if (document.referrer) return document.referrer;
+    // Último recurso
     return window.location.href;
 }
-
 function getValueByPath(obj, path) {
 return path.split('.').reduce((acc, part) => acc && acc[part] ? acc[part] : '', obj);
 }
