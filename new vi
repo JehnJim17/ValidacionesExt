@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Visualizador de Contratos - Verona</title>
+    <style>
+        :root {
+            --azul: #002b49;
+            --gris-bg: #f7f9fc;
+            --card-radius: 12px;
+        }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--gris-bg); margin: 0; }
+        .container { padding: 2rem; max-width: 1200px; margin: auto; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+        table { width: 100%; border-collapse: collapse; background: #fff; border-radius: var(--card-radius); overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid #eee; }
+        th { background: var(--azul); color: #fff; }
+        .loading-spinner { display: none; text-align: center; padding: 2rem; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>Mis Consultas | Verona</h1>
+        <button id="btn-refresh" class="btn-main">Actualizar Datos</button>
+    </div>
+
+    <div id="loading" class="loading-spinner">Cargando información...</div>
+    
+    <table id="tabla-contratos">
+        <thead>
+            <tr>
+                <th>ID Contrato</th>
+                <th>Nombre</th>
+                <th>Estado</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        <tbody id="lista-datos">
+            </tbody>
+    </table>
+</div>
+
+<script>
+    const CONFIG = {
+        // URL del Webhook de Power Automate
+        webhookUrl: "https://prod-07.brazilsouth.logic.azure.com:443/...", 
+        // Extracción del dominio real de Confluence
+        origen: document.referrer ? new URL(document.referrer).origin : window.location.hostname
+    };
+
+    async function fetchData() {
+        const loader = document.getElementById('loading');
+        const tabla = document.getElementById('lista-datos');
+        
+        loader.style.display = 'block';
+        tabla.innerHTML = '';
+
+        const payload = {
+            origen: CONFIG.origen,
+            accion: "consultar_contratos",
+            timestamp: new Date().toISOString()
+        };
+
+        try {
+            const response = await fetch(CONFIG.webhookUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) throw new Error("Error en la respuesta del servidor");
+
+            const data = await response.json();
+            renderTable(data.datos || []);
+        } catch (error) {
+            console.error("Error:", error);
+            tabla.innerHTML = `<tr><td colspan="4">Error al cargar datos. Intente de nuevo.</td></tr>`;
+        } finally {
+            loader.style.display = 'none';
+        }
+    }
+
+    function renderTable(items) {
+        const tbody = document.getElementById('lista-datos');
+        if (items.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="4">No se encontraron registros.</td></tr>`;
+            return;
+        }
+
+        tbody.innerHTML = items.map(item => `
+            <tr>
+                <td>${item.id}</td>
+                <td>${item.nombre}</td>
+                <td>${item.estado}</td>
+                <td>${item.fecha}</td>
+            </tr>
+        `).join('');
+    }
+
+    document.getElementById('btn-refresh').addEventListener('click', fetchData);
+
+    // Carga inicial automática
+    window.onload = fetchData;
+</script>
+
+</body>
+</html>
