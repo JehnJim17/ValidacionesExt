@@ -1,0 +1,701 @@
+ProveeedoresRazonSocial:{
+                "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4",
+                "globalId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4:39176",
+                "id": "39176",
+                "label": "BDO AUDIT SAS BIC",
+                "objectKey": "AB-39176",
+                "avatar": {
+                    "url16": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/60/icon.png?size=16",
+                    "url48": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/60/icon.png?size=48",
+                    "url72": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/60/icon.png?size=72",
+                    "url144": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/60/icon.png?size=144",
+                    "url288": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/60/icon.png?size=288",
+                    "objectId": "39176",
+                    "mediaClientConfig": {
+                        "clientId": "60755b55-889c-4907-b32b-39a50b5cfe92",
+                        "issuer": null,
+                        "mediaBaseUrl": "https://api.media.atlassian.com",
+                        "mediaJwtToken": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiI2MDc1NWI1NS04ODljLTQ5MDctYjMyYi0zOWE1MGI1Y2ZlOTIiLCJhY2Nlc3MiOnsidXJuOmZpbGVzdG9yZTpmaWxlOmI2ZWE4MjQ4LWRiNjUtNDE0Yi1iOGMyLWJlMjM5YjE2NTdiMyI6WyJyZWFkIl19LCJleHAiOjE3NzQzOTE4MjMsIm5iZiI6MTc3NDM4ODIyM30.kcLTKAo9PBTBZzZEwFMB3Xg_x3ANiWy9q7dNVwUf59c",
+                        "tokenLifespanInMinutes": 60,
+                        "fileId": "b6ea8248-db65-414b-b8c2-be239b1657b3",
+                        "collectionId": null
+                    },
+                    "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4"
+                },
+                "objectType": {
+                    "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4",
+                    "globalId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4:60",
+                    "id": "60",
+                    "name": "ProveedorEmpresa",
+                    "type": 0,
+                    "description": "Import type from CSV file",
+                    "icon": {
+                        "id": "46",
+                        "name": "Factory",
+                        "url16": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/60/icon.png?size=16",
+                        "url48": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/60/icon.png?size=48"
+                    },
+                    "position": 2,
+                    "created": "2025-02-24T16:12:38.716Z",
+                    "updated": "2025-10-10T15:43:00.487Z",
+                    "objectCount": 0,
+                    "parentObjectTypeId": "29",
+                    "objectSchemaId": "2",
+                    "inherited": false,
+                    "abstractObjectType": false,
+                    "parentObjectTypeInherited": false,
+                    "schemaLabel": "Abastecimiento"
+                },
+                "created": "2026-02-11T15:54:42.588Z",
+                "updated": "2026-02-11T20:15:57.451Z",
+                "hasAvatar": false,
+                "timestamp": 1770840957451,
+                "attributes": [
+                    {
+                        "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4",
+                        "globalId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4:524",
+                        "id": "524",
+                        "objectTypeAttributeId": "524",
+                        "objectAttributeValues": [
+                            {
+                                "displayValue": "BDO AUDIT SAS BIC",
+                                "searchValue": "BDO AUDIT SAS BIC",
+                                "referencedType": false,
+                                "value": "BDO AUDIT SAS BIC"
+                            }
+                        ],
+                        "objectId": "39176"
+                    },
+                    {
+                        "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4",
+                        "globalId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4:525",
+                        "id": "525",
+                        "objectTypeAttributeId": "525",
+                        "objectAttributeValues": [
+                            {
+                                "displayValue": "Nit",
+                                "searchValue": "Nit",
+                                "referencedType": false,
+                                "value": "Nit"
+                            }
+                        ],
+                        "objectId": "39176"
+                    },
+                    {
+                        "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4",
+                        "globalId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4:526",
+                        "id": "526",
+                        "objectTypeAttributeId": "526",
+                        "objectAttributeValues": [
+                            {
+                                "displayValue": "BDO AUDIT SAS BIC",
+                                "searchValue": "BDO AUDIT SAS BIC",
+                                "referencedType": false,
+                                "value": "BDO AUDIT SAS BIC"
+                            }
+                        ],
+                        "objectId": "39176"
+                    },
+                    {
+                        "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4",
+                        "globalId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4:527",
+                        "id": "527",
+                        "objectTypeAttributeId": "527",
+                        "objectAttributeValues": [
+                            {
+                                "displayValue": "8606000639",
+                                "searchValue": "8606000639",
+                                "referencedType": false,
+                                "value": "8606000639"
+                            }
+                        ],
+                        "objectId": "39176"
+                    },
+                    {
+                        "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4",
+                        "globalId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4:528",
+                        "id": "528",
+                        "objectTypeAttributeId": "528",
+                        "objectAttributeValues": [
+                            {
+                                "displayValue": "Activo",
+                                "searchValue": "Activo",
+                                "referencedType": false,
+                                "value": "Activo"
+                            }
+                        ],
+                        "objectId": "39176"
+                    },
+                    {
+                        "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4",
+                        "globalId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4:1321",
+                        "id": "1321",
+                        "objectTypeAttributeId": "1321",
+                        "objectAttributeValues": [
+                            {
+                                "displayValue": "ALEJANDRO WILCHES",
+                                "searchValue": "ALEJANDRO WILCHES",
+                                "referencedType": false,
+                                "value": "ALEJANDRO WILCHES"
+                            }
+                        ],
+                        "objectId": "39176"
+                    },
+                    {
+                        "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4",
+                        "globalId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4:1491",
+                        "id": "1491",
+                        "objectTypeAttributeId": "1491",
+                        "objectAttributeValues": [
+                            {
+                                "displayValue": "Comercial",
+                                "searchValue": "Comercial",
+                                "referencedType": false,
+                                "value": "Comercial"
+                            }
+                        ],
+                        "objectId": "39176"
+                    },
+                    {
+                        "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4",
+                        "globalId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4:1320",
+                        "id": "1320",
+                        "objectTypeAttributeId": "1320",
+                        "objectAttributeValues": [
+                            {
+                                "displayValue": "awilches@bdo.com.co",
+                                "searchValue": "awilches@bdo.com.co",
+                                "referencedType": false,
+                                "value": "awilches@bdo.com.co"
+                            }
+                        ],
+                        "objectId": "39176"
+                    },
+                    {
+                        "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4",
+                        "globalId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4:1322",
+                        "id": "1322",
+                        "objectTypeAttributeId": "1322",
+                        "objectAttributeValues": [
+                            {
+                                "displayValue": "AB-22567",
+                                "searchValue": "AB-22567",
+                                "referencedType": false,
+                                "value": "AB-22567"
+                            }
+                        ],
+                        "objectId": "39176"
+                    },
+                    {
+                        "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4",
+                        "globalId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4:1326",
+                        "id": "1326",
+                        "objectTypeAttributeId": "1326",
+                        "objectAttributeValues": [
+                            {
+                                "displayValue": "3104926541",
+                                "searchValue": "3104926541",
+                                "referencedType": false,
+                                "value": "3104926541"
+                            }
+                        ],
+                        "objectId": "39176"
+                    },
+                    {
+                        "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4",
+                        "globalId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4:519",
+                        "id": "519",
+                        "objectTypeAttributeId": "519",
+                        "objectAttributeValues": [
+                            {
+                                "displayValue": "AB-39176",
+                                "searchValue": "AB-39176",
+                                "referencedType": false,
+                                "value": "AB-39176"
+                            }
+                        ],
+                        "objectId": "39176"
+                    },
+                    {
+                        "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4",
+                        "globalId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4:521",
+                        "id": "521",
+                        "objectTypeAttributeId": "521",
+                        "objectAttributeValues": [
+                            {
+                                "displayValue": "11/Feb/26 3:54 PM",
+                                "searchValue": "2026-02-11T15:54:42.588Z",
+                                "referencedType": false,
+                                "value": "2026-02-11T15:54:42.588Z"
+                            }
+                        ],
+                        "objectId": "39176"
+                    },
+                    {
+                        "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4",
+                        "globalId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4:522",
+                        "id": "522",
+                        "objectTypeAttributeId": "522",
+                        "objectAttributeValues": [
+                            {
+                                "displayValue": "11/Feb/26 8:15 PM",
+                                "searchValue": "2026-02-11T20:15:57.451Z",
+                                "referencedType": false,
+                                "value": "2026-02-11T20:15:57.451Z"
+                            }
+                        ],
+                        "objectId": "39176"
+                    },
+                    {
+                        "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4",
+                        "globalId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4:1307",
+                        "id": "1307",
+                        "objectTypeAttributeId": "1307",
+                        "objectAttributeValues": [
+                            {
+                                "displayValue": "10068796",
+                                "searchValue": "AB-39186",
+                                "referencedType": true,
+                                "referencedObject": {
+                                    "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4",
+                                    "globalId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4:39186",
+                                    "id": "39186",
+                                    "label": "10068796",
+                                    "objectKey": "AB-39186",
+                                    "avatar": {
+                                        "url16": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/81/icon.png?size=16",
+                                        "url48": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/81/icon.png?size=48",
+                                        "url72": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/81/icon.png?size=72",
+                                        "url144": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/81/icon.png?size=144",
+                                        "url288": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/81/icon.png?size=288",
+                                        "objectId": "39186",
+                                        "mediaClientConfig": {
+                                            "clientId": "60755b55-889c-4907-b32b-39a50b5cfe92",
+                                            "issuer": null,
+                                            "mediaBaseUrl": "https://api.media.atlassian.com",
+                                            "mediaJwtToken": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiI2MDc1NWI1NS04ODljLTQ5MDctYjMyYi0zOWE1MGI1Y2ZlOTIiLCJhY2Nlc3MiOnsidXJuOmZpbGVzdG9yZTpmaWxlOmI2ZWE4MjQ4LWRiNjUtNDE0Yi1iOGMyLWJlMjM5YjE2NTdiMyI6WyJyZWFkIl19LCJleHAiOjE3NzQzOTE4MjMsIm5iZiI6MTc3NDM4ODIyM30.kcLTKAo9PBTBZzZEwFMB3Xg_x3ANiWy9q7dNVwUf59c",
+                                            "tokenLifespanInMinutes": 60,
+                                            "fileId": "b6ea8248-db65-414b-b8c2-be239b1657b3",
+                                            "collectionId": null
+                                        },
+                                        "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4"
+                                    },
+                                    "objectType": {
+                                        "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4",
+                                        "globalId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4:81",
+                                        "id": "81",
+                                        "name": "ProveedorEmpresaMaduracion2",
+                                        "type": 0,
+                                        "description": "",
+                                        "icon": {
+                                            "id": "46",
+                                            "name": "Factory",
+                                            "url16": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/81/icon.png?size=16",
+                                            "url48": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/81/icon.png?size=48"
+                                        },
+                                        "position": 0,
+                                        "created": "2025-02-25T16:04:45.875Z",
+                                        "updated": "2025-03-21T16:21:33.241Z",
+                                        "objectCount": 0,
+                                        "parentObjectTypeId": "60",
+                                        "objectSchemaId": "2",
+                                        "inherited": false,
+                                        "abstractObjectType": false,
+                                        "parentObjectTypeInherited": false,
+                                        "schemaLabel": "Abastecimiento"
+                                    },
+                                    "created": "2026-02-11T20:15:57.254Z",
+                                    "updated": "2026-03-18T21:24:03.811Z",
+                                    "hasAvatar": false,
+                                    "timestamp": 1773869043811,
+                                    "_links": {
+                                        "self": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/object/39186"
+                                    },
+                                    "name": "10068796"
+                                }
+                            }
+                        ],
+                        "objectId": "39176"
+                    },
+                    {
+                        "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4",
+                        "globalId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4:1515",
+                        "id": "1515",
+                        "objectTypeAttributeId": "1515",
+                        "objectAttributeValues": [
+                            {
+                                "displayValue": "Colombia",
+                                "searchValue": "AB-22567",
+                                "referencedType": true,
+                                "referencedObject": {
+                                    "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4",
+                                    "globalId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4:22567",
+                                    "id": "22567",
+                                    "label": "Colombia",
+                                    "objectKey": "AB-22567",
+                                    "avatar": {
+                                        "url16": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/137/icon.png?size=16",
+                                        "url48": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/137/icon.png?size=48",
+                                        "url72": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/137/icon.png?size=72",
+                                        "url144": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/137/icon.png?size=144",
+                                        "url288": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/137/icon.png?size=288",
+                                        "objectId": "22567",
+                                        "mediaClientConfig": {
+                                            "clientId": "60755b55-889c-4907-b32b-39a50b5cfe92",
+                                            "issuer": null,
+                                            "mediaBaseUrl": "https://api.media.atlassian.com",
+                                            "mediaJwtToken": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiI2MDc1NWI1NS04ODljLTQ5MDctYjMyYi0zOWE1MGI1Y2ZlOTIiLCJhY2Nlc3MiOnsidXJuOmZpbGVzdG9yZTpmaWxlOjAyZWNhZjE5LWE0ODMtNDIzYi1iZGUzLWU0YmQ1MTQ2MDNkMyI6WyJyZWFkIl19LCJleHAiOjE3NzQzOTE4MjIsIm5iZiI6MTc3NDM4ODIyMn0.C5PAQu6aIdxWpAFZI5mSJxhrafisEW9Mpl9gASF76bk",
+                                            "tokenLifespanInMinutes": 60,
+                                            "fileId": "02ecaf19-a483-423b-bde3-e4bd514603d3",
+                                            "collectionId": null
+                                        },
+                                        "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4"
+                                    },
+                                    "objectType": {
+                                        "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4",
+                                        "globalId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4:137",
+                                        "id": "137",
+                                        "name": "DIMPaises",
+                                        "type": 0,
+                                        "description": "Import type from CSV file",
+                                        "icon": {
+                                            "id": "55",
+                                            "name": "Globe",
+                                            "url16": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/137/icon.png?size=16",
+                                            "url48": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/137/icon.png?size=48"
+                                        },
+                                        "position": 3,
+                                        "created": "2025-03-26T13:59:48.348Z",
+                                        "updated": "2025-05-05T21:54:14.658Z",
+                                        "objectCount": 0,
+                                        "objectSchemaId": "2",
+                                        "inherited": false,
+                                        "abstractObjectType": false,
+                                        "parentObjectTypeInherited": false,
+                                        "schemaLabel": "Abastecimiento"
+                                    },
+                                    "created": "2025-03-26T14:00:02.062Z",
+                                    "updated": "2025-03-26T14:00:02.062Z",
+                                    "hasAvatar": false,
+                                    "timestamp": 1742997602062,
+                                    "_links": {
+                                        "self": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/object/22567"
+                                    },
+                                    "name": "Colombia"
+                                }
+                            }
+                        ],
+                        "objectId": "39176"
+                    },
+                    {
+                        "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4",
+                        "globalId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4:1490",
+                        "id": "1490",
+                        "objectTypeAttributeId": "1490",
+                        "objectAttributeValues": [
+                            {
+                                "displayValue": "Bogotá, D.C.",
+                                "searchValue": "AB-21140",
+                                "referencedType": true,
+                                "referencedObject": {
+                                    "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4",
+                                    "globalId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4:21140",
+                                    "id": "21140",
+                                    "label": "Bogotá, D.C.",
+                                    "objectKey": "AB-21140",
+                                    "avatar": {
+                                        "url16": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/108/icon.png?size=16",
+                                        "url48": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/108/icon.png?size=48",
+                                        "url72": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/108/icon.png?size=72",
+                                        "url144": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/108/icon.png?size=144",
+                                        "url288": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/108/icon.png?size=288",
+                                        "objectId": "21140",
+                                        "mediaClientConfig": {
+                                            "clientId": "60755b55-889c-4907-b32b-39a50b5cfe92",
+                                            "issuer": null,
+                                            "mediaBaseUrl": "https://api.media.atlassian.com",
+                                            "mediaJwtToken": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiI2MDc1NWI1NS04ODljLTQ5MDctYjMyYi0zOWE1MGI1Y2ZlOTIiLCJhY2Nlc3MiOnsidXJuOmZpbGVzdG9yZTpmaWxlOmI2OWQyNDhhLTliYzgtNDY4Yy04NGM1LTI5ZGM4ZTcyOTQyYiI6WyJyZWFkIl19LCJleHAiOjE3NzQzOTE4MjIsIm5iZiI6MTc3NDM4ODIyMn0.7fZ8ZBOoVDiXFaLXwvAxL9XzEX8DcLA8uNt9xizca64",
+                                            "tokenLifespanInMinutes": 60,
+                                            "fileId": "b69d248a-9bc8-468c-84c5-29dc8e72942b",
+                                            "collectionId": null
+                                        },
+                                        "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4"
+                                    },
+                                    "objectType": {
+                                        "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4",
+                                        "globalId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4:108",
+                                        "id": "108",
+                                        "name": "DIM Municipios",
+                                        "type": 0,
+                                        "description": "Import type from CSV file",
+                                        "icon": {
+                                            "id": "41",
+                                            "name": "Document",
+                                            "url16": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/108/icon.png?size=16",
+                                            "url48": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/108/icon.png?size=48"
+                                        },
+                                        "position": 4,
+                                        "created": "2025-02-27T14:40:55.174Z",
+                                        "updated": "2025-05-05T21:54:14.666Z",
+                                        "objectCount": 0,
+                                        "objectSchemaId": "2",
+                                        "inherited": false,
+                                        "abstractObjectType": false,
+                                        "parentObjectTypeInherited": false,
+                                        "schemaLabel": "Abastecimiento"
+                                    },
+                                    "created": "2025-02-27T14:43:15.650Z",
+                                    "updated": "2025-02-27T14:43:15.650Z",
+                                    "hasAvatar": false,
+                                    "timestamp": 1740667395650,
+                                    "_links": {
+                                        "self": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/object/21140"
+                                    },
+                                    "name": "Bogotá, D.C."
+                                }
+                            }
+                        ],
+                        "objectId": "39176"
+                    }
+                ],
+                "_links": {
+                    "self": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/object/39176"
+                },
+                "name": "BDO AUDIT SAS BIC"
+            }
+
+Maduracion: {
+                "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4",
+                "globalId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4:39186",
+                "id": "39186",
+                "label": "10068796",
+                "objectKey": "AB-39186",
+                "avatar": {
+                    "url16": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/81/icon.png?size=16",
+                    "url48": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/81/icon.png?size=48",
+                    "url72": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/81/icon.png?size=72",
+                    "url144": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/81/icon.png?size=144",
+                    "url288": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/81/icon.png?size=288",
+                    "objectId": "39186",
+                    "mediaClientConfig": {
+                        "clientId": "60755b55-889c-4907-b32b-39a50b5cfe92",
+                        "issuer": null,
+                        "mediaBaseUrl": "https://api.media.atlassian.com",
+                        "mediaJwtToken": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiI2MDc1NWI1NS04ODljLTQ5MDctYjMyYi0zOWE1MGI1Y2ZlOTIiLCJhY2Nlc3MiOnsidXJuOmZpbGVzdG9yZTpmaWxlOmI2ZWE4MjQ4LWRiNjUtNDE0Yi1iOGMyLWJlMjM5YjE2NTdiMyI6WyJyZWFkIl19LCJleHAiOjE3NzQzOTQxMDAsIm5iZiI6MTc3NDM5MDUwMH0.zp60MjYSyiRPcxDYrPuoxxaF_OswbG8UyinPN0ACvyo",
+                        "tokenLifespanInMinutes": 60,
+                        "fileId": "b6ea8248-db65-414b-b8c2-be239b1657b3",
+                        "collectionId": null
+                    },
+                    "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4"
+                },
+                "objectType": {
+                    "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4",
+                    "globalId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4:81",
+                    "id": "81",
+                    "name": "ProveedorEmpresaMaduracion2",
+                    "type": 0,
+                    "description": "",
+                    "icon": {
+                        "id": "46",
+                        "name": "Factory",
+                        "url16": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/81/icon.png?size=16",
+                        "url48": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/81/icon.png?size=48"
+                    },
+                    "position": 0,
+                    "created": "2025-02-25T16:04:45.875Z",
+                    "updated": "2025-03-21T16:21:33.241Z",
+                    "objectCount": 0,
+                    "parentObjectTypeId": "60",
+                    "objectSchemaId": "2",
+                    "inherited": false,
+                    "abstractObjectType": false,
+                    "parentObjectTypeInherited": false,
+                    "schemaLabel": "Abastecimiento"
+                },
+                "created": "2026-02-11T20:15:57.254Z",
+                "updated": "2026-03-18T21:24:03.811Z",
+                "hasAvatar": false,
+                "timestamp": 1773869043811,
+                "attributes": [
+                    {
+                        "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4",
+                        "globalId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4:1258",
+                        "id": "1258",
+                        "objectTypeAttributeId": "1258",
+                        "objectAttributeValues": [
+                            {
+                                "displayValue": "10068796",
+                                "searchValue": "10068796",
+                                "referencedType": false,
+                                "value": "10068796"
+                            }
+                        ],
+                        "objectId": "39186"
+                    },
+                    {
+                        "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4",
+                        "globalId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4:1492",
+                        "id": "1492",
+                        "objectTypeAttributeId": "1492",
+                        "objectAttributeValues": [
+                            {
+                                "displayValue": "K-NALSERVI",
+                                "searchValue": "K-NALSERVI",
+                                "referencedType": false,
+                                "value": "K-NALSERVI"
+                            }
+                        ],
+                        "objectId": "39186"
+                    },
+                    {
+                        "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4",
+                        "globalId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4:2162",
+                        "id": "2162",
+                        "objectTypeAttributeId": "2162",
+                        "objectAttributeValues": [
+                            {
+                                "displayValue": "true",
+                                "searchValue": "true",
+                                "referencedType": false,
+                                "value": "true"
+                            }
+                        ],
+                        "objectId": "39186"
+                    },
+                    {
+                        "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4",
+                        "globalId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4:2163",
+                        "id": "2163",
+                        "objectTypeAttributeId": "2163",
+                        "objectAttributeValues": [
+                            {
+                                "displayValue": "17/Feb/27",
+                                "searchValue": "2027-02-17",
+                                "referencedType": false,
+                                "value": "2027-02-17"
+                            }
+                        ],
+                        "objectId": "39186"
+                    },
+                    {
+                        "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4",
+                        "globalId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4:750",
+                        "id": "750",
+                        "objectTypeAttributeId": "750",
+                        "objectAttributeValues": [
+                            {
+                                "displayValue": "AB-39186",
+                                "searchValue": "AB-39186",
+                                "referencedType": false,
+                                "value": "AB-39186"
+                            }
+                        ],
+                        "objectId": "39186"
+                    },
+                    {
+                        "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4",
+                        "globalId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4:752",
+                        "id": "752",
+                        "objectTypeAttributeId": "752",
+                        "objectAttributeValues": [
+                            {
+                                "displayValue": "11/Feb/26 8:15 PM",
+                                "searchValue": "2026-02-11T20:15:57.254Z",
+                                "referencedType": false,
+                                "value": "2026-02-11T20:15:57.254Z"
+                            }
+                        ],
+                        "objectId": "39186"
+                    },
+                    {
+                        "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4",
+                        "globalId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4:753",
+                        "id": "753",
+                        "objectTypeAttributeId": "753",
+                        "objectAttributeValues": [
+                            {
+                                "displayValue": "18/Mar/26 9:24 PM",
+                                "searchValue": "2026-03-18T21:24:03.811Z",
+                                "referencedType": false,
+                                "value": "2026-03-18T21:24:03.811Z"
+                            }
+                        ],
+                        "objectId": "39186"
+                    },
+                    {
+                        "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4",
+                        "globalId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4:761",
+                        "id": "761",
+                        "objectTypeAttributeId": "761",
+                        "objectAttributeValues": [
+                            {
+                                "displayValue": "BDO AUDIT SAS BIC",
+                                "searchValue": "AB-39176",
+                                "referencedType": true,
+                                "referencedObject": {
+                                    "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4",
+                                    "globalId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4:39176",
+                                    "id": "39176",
+                                    "label": "BDO AUDIT SAS BIC",
+                                    "objectKey": "AB-39176",
+                                    "avatar": {
+                                        "url16": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/60/icon.png?size=16",
+                                        "url48": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/60/icon.png?size=48",
+                                        "url72": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/60/icon.png?size=72",
+                                        "url144": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/60/icon.png?size=144",
+                                        "url288": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/60/icon.png?size=288",
+                                        "objectId": "39176",
+                                        "mediaClientConfig": {
+                                            "clientId": "60755b55-889c-4907-b32b-39a50b5cfe92",
+                                            "issuer": null,
+                                            "mediaBaseUrl": "https://api.media.atlassian.com",
+                                            "mediaJwtToken": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiI2MDc1NWI1NS04ODljLTQ5MDctYjMyYi0zOWE1MGI1Y2ZlOTIiLCJhY2Nlc3MiOnsidXJuOmZpbGVzdG9yZTpmaWxlOmI2ZWE4MjQ4LWRiNjUtNDE0Yi1iOGMyLWJlMjM5YjE2NTdiMyI6WyJyZWFkIl19LCJleHAiOjE3NzQzOTQxMDAsIm5iZiI6MTc3NDM5MDUwMH0.zp60MjYSyiRPcxDYrPuoxxaF_OswbG8UyinPN0ACvyo",
+                                            "tokenLifespanInMinutes": 60,
+                                            "fileId": "b6ea8248-db65-414b-b8c2-be239b1657b3",
+                                            "collectionId": null
+                                        },
+                                        "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4"
+                                    },
+                                    "objectType": {
+                                        "workspaceId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4",
+                                        "globalId": "3c7d6647-ee8c-44bb-9999-f64d54d5dfe4:60",
+                                        "id": "60",
+                                        "name": "ProveedorEmpresa",
+                                        "type": 0,
+                                        "description": "Import type from CSV file",
+                                        "icon": {
+                                            "id": "46",
+                                            "name": "Factory",
+                                            "url16": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/60/icon.png?size=16",
+                                            "url48": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/objecttype/60/icon.png?size=48"
+                                        },
+                                        "position": 2,
+                                        "created": "2025-02-24T16:12:38.716Z",
+                                        "updated": "2025-10-10T15:43:00.487Z",
+                                        "objectCount": 0,
+                                        "parentObjectTypeId": "29",
+                                        "objectSchemaId": "2",
+                                        "inherited": false,
+                                        "abstractObjectType": false,
+                                        "parentObjectTypeInherited": false,
+                                        "schemaLabel": "Abastecimiento"
+                                    },
+                                    "created": "2026-02-11T15:54:42.588Z",
+                                    "updated": "2026-02-11T20:15:57.451Z",
+                                    "hasAvatar": false,
+                                    "timestamp": 1770840957451,
+                                    "_links": {
+                                        "self": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/object/39176"
+                                    },
+                                    "name": "BDO AUDIT SAS BIC"
+                                }
+                            }
+                        ],
+                        "objectId": "39186"
+                    }
+                ],
+                "_links": {
+                    "self": "https://api.atlassian.com/jsm/assets/workspace/3c7d6647-ee8c-44bb-9999-f64d54d5dfe4/v1/object/39186"
+                },
+                "name": "10068796"
+            }
